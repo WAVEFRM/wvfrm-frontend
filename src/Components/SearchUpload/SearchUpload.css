@@ -1,0 +1,50 @@
+.SearchContainer
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 3em;
+    align-content: center; 
+    align-items: center;
+}
+.listandinput
+{
+    display: flex;
+    flex-direction: column;
+    width:30vw;
+    margin-left: 3vw;
+}
+.listandinput ul
+{
+  
+    overflow-y: scroll;
+    height: 15vw;
+    margin-top: -0.8em;
+}
+.listandinput li
+{
+    cursor: pointer;
+    text-align: center;
+}
+.listandinput input
+{
+    margin: 1em 0em;
+    height: 1vw;
+    border-radius: 1rem;
+    border: 1px solid gray;
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 1.2vw;
+}
+.listandinput input{
+    padding:1em 1em;
+}
+
+
+
+.developersurvey
+{
+    position: absolute;
+    margin-top: 25em;
+    cursor: pointer;
+}

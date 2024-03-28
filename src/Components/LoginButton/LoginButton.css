@@ -1,0 +1,27 @@
+.LoginButtonContainer{
+  width:50%;
+  float:right;
+}
+.LoginButtonContainer button{
+  width: 70%; /* Adjust the width as needed */
+  background-color: black;
+  font-family: Roboto,'sans-serif';
+  font-weight:600px;
+  border-radius: 45px;
+  display:flex;
+  align-items: center;
+  float:right;
+}
+
+.LoginButtonContainer img{
+  width:20%;
+  margin-left:15px;
+}
+
+.LoginButtonContainer h2{
+  font-family: Roboto,'sans-serif';
+  font-weight:600;
+  color:white;
+  margin:10px;
+  align-items: center;
+}

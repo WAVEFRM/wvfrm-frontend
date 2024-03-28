@@ -1,0 +1,89 @@
+.navbarContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    position: relative;
+    background-color: black; /* Change background color to black */
+  }
+  
+  .NavHeader {
+    color: white; /* Text color */
+    font-size: 24px; /* Font size */
+    cursor: pointer;
+    margin: 10px;
+  }
+  
+  .userInfo {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    max-width: max-content;
+  }
+  
+  .userLogo {
+    width: 50px; /* Adjust image size */
+    height: 50px; /* Adjust image size */
+    cursor: pointer;
+    margin: 5px;
+  }
+  
+  .usernameHeader {
+    margin-right: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    color: #c0c0c0;
+  }
+  
+  .usernameHeader:hover {
+    color: white; /* Change hover color to white */
+    font-weight: bold; /* Make font bold on hover */
+  }
+  
+  .nav-list {
+    display: flex;
+    justify-content: space-around;
+    width: 70%; 
+  }
+  
+  nav ul{
+    list-style:none;
+  }
+  nav ul li a {
+    text-decoration: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+  }
+  
+  nav ul li a:not(.active):hover {
+    background-color: #4d74f4;
+    width:auto;
+  }
+  
+  
+  @media screen and (max-width: 1024px) {
+    .username {
+      position: fixed;
+      left: 80%;
+      font-size: 1.5vw;
+    }
+  
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 180%;
+      right: 0;
+      padding: 0.1rem;
+      background-color: white;
+      list-style-type: none;
+      font-family: 'Roboto', sans-serif;
+      font-size: 1rem;
+      cursor: pointer;
+      height: 10vw;
+      width: 10%;
+      z-index: 1;
+    }
+  }
+  

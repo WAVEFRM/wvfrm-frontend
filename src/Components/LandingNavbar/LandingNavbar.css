@@ -1,0 +1,27 @@
+.wvfm-logo-div{
+    display:flex;
+    justify-content: space-evenly;
+    align-content: center; 
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.wvfm-logo-div-text{  
+    text-align: center;    
+    margin-left: 2rem;
+    margin-top:1rem;
+}
+
+.nav-landingheader{
+    width:100%;
+    display:flex;
+    justify-content:space-around;
+    align-items: center;
+    
+}
+
+.nav-login-btn{
+    align-items: right;
+    justify-content:center;
+    float:right;
+}
