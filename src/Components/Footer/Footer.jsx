@@ -1,93 +1,46 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Container from '@mui/material/Container';
-import IconButton from '@mui/material/IconButton';
-import Link from '@mui/material/Link';
-import Stack from '@mui/material/Stack';
-import wvfmLlogo from "../../Assets/web-logo-no-bg.png";
-import Typography from '@mui/material/Typography';
-
+import { Link, NavLink } from 'react-router-dom';
 import GithubIcon from '@mui/icons-material/GitHub';
-
+import { IconButton } from '@mui/material';
+import wvfmLlogo from "../../Assets/web-logo-no-bg.png";
+import { AlignHorizontalLeft } from '@mui/icons-material';
 const logoStyle = {
   width: '140px',
   height: 'auto',
+  margin:10
 };
 
-
-
-export default function Footer() {
-  return (
-    <Box
-    sx={{
-      display: 'flex',
-      flexDirection: 'column',
-     
-      alignItems: 'center',
-      gap: { xs: 4, sm: 8 },
-      py: { xs: 8, sm: 3 },
-      textAlign: { sm: 'center', md: 'left' },
-      borderTop: "1px solid #000",
-      marginTop: "auto",
-    }}
-  > 
-   
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: { xs: 'column', sm: 'row' },
-          width: '100%',
-          justifyContent: 'space-between',
-        }}               
-  component="footer"
-      >
-       
-          <Box sx={{ width: { xs: '100%', sm: '60%' } }}>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            
-          >
-          <div className='wvfm-logo-div'>
-          
-          <img
-            src={wvfmLlogo }                       
-            style={logoStyle}
-            alt="logo of sitemark"
-          />
-       
-       <div className='wvfm-logo-div-text'>
-           <h3>WAVEFORM</h3>
-         </div>
-         </div>   
-          </Typography>
-            
-          </Box>
-
-
-        <Box
-          sx={{
-            display: { xs: 'none', sm: 'flex' },
-            flexDirection: 'row',
-            gap: 7,
-          }}
-        >
-          <Link color="#3a30f0" href="/predict" underline="hover">
-          Predict
-          </Link>
-          <Link color="#3a30f0" href="/upload" underline="hover">
-           Upload
-          </Link>
-          <Link color="#3a30f0" href="/about" underline="hover">
-           About
-          </Link>
-          <Link color="#3a30f0" href="/profile" underline="hover">
-            Profile
-          </Link>  
-
+function Footer() {
+  return ( 
+    <div  className="nav-header" >          
+        <NavLink to="/" style={{color: 'black', textDecoration: 'none'}} >
+        <div className='wvfm-logo-div-all'>
+          <img src={wvfmLlogo } style={logoStyle} alt="logo of sitemark"
+          />     
+          <div className='wvfm-logo-div-text-all'>
+            <h3>WAVEFORM</h3>
+          </div>
+        </div>   
+        </NavLink>
+        
+        
+          <ul style={{display:'flex',flexDirection:'row',justifyContent:'space-around',listStyle:'none',}}>
+          <li>
+             <NavLink to="/predict" style={{margin:'1rem'}}>Predict</NavLink>
+           </li>
+           <li>
+             <NavLink to="/results" style={{margin:'1rem'}}>Results</NavLink>
+          </li>
+           <li>
+            <NavLink to="/about" style={{margin:'1rem'}}>About</NavLink>
+          </li>
+           <li>
+             <NavLink to="/contact" style={{margin:'1rem'}}>Contact</NavLink>
+          </li>       
+        </ul>   
+      
+        <NavLink to="/profile" style={{color: 'black', textDecoration: 'none'}}>
+          <div class="githubInfo" style={{justifyContent:'left'}}>
           <IconButton
             color="inherit"
             href="https://github.com/albymat32"
@@ -96,10 +49,10 @@ export default function Footer() {
           >
             <GithubIcon />
           </IconButton>
-
-        </Box>      
-      </Box>     
-   
-    </Box>
+          </div>
+          </NavLink>
+    </div>
+  
   );
 }
+export default Footer;

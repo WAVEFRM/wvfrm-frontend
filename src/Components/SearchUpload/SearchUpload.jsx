@@ -1,56 +1,57 @@
 import React, { useEffect, useState } from 'react';
 import "./SearchUpload.css";
-import axios from 'axios';
-import { useNavigate } from "react-router-dom";
-import LinearProgress from '@mui/material/LinearProgress';
-
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-
-
 
 const SearchUpload = () => {
 
+  const songNames = [
+    "Song 1",
+    "Song 2",
+    "Song 3",
+    "Song 4",
+    "Song 5",
+    "Song 6",
+    "Song 7",
+    "Song 8",
+    "Song 9",
+    "Song 10"
+  ];
     const [searchTerm, setSearchTerm] = useState("");
     const [showList, setshowList] = useState(false);
-    const [jobs, setJobs] = useState([]);
-    const [chosenSkill, setchosenSkill] = useState("");
-    
-    const [uploadProgress, setUploadProgress] = useState("");
+     const [songs, setSongs] = useState([]);
+    const [chosenSongs, setchosenSongs] = useState("");
+    const [fileName, setFileName] = useState(null);
+    const [filePath, setFilePath] = useState(null);
+    const [showForm, setShowForm] = useState(false);
+    const [songName, setSongName] = useState('');
+    const [uploadedSong, setUploadedSong] = useState(null);
 
-    const navigate=useNavigate();
-    const handleClick = () => {
-        navigate('/devsurvey');
+    const handleFileSelect = (e) => {
+      handleFileSelection(e.target.files[0]);
+    };
+    const handleFileSelection = (file) => {
+      setFileName(file.name);
+      setFilePath(URL.createObjectURL(file));
+      setUploadedSong(file.name.replace(/\.[^/.]+$/, ''));
+      setShowForm(true);
+  
+      const jsonData = {
+        fileName: file.name,
+        fileSize: file.size,
+        fileType: file.type,
+        lastModified: file.lastModified,
       };
+  
+    };
+
     const handleSearch = (e) => {
-        setSearchTerm(e.target.value);
-        setshowList(true);
+       const searchTerm=(e.target.value).toLowerCase();
+       setSearchTerm(searchTerm);
+        setshowList(!!searchTerm && filteredSongs.length > 0);
       };
-      const filteredSkills = jobs.filter((skill) =>
-        skill.toLowerCase().includes(searchTerm.toLowerCase())
+      const filteredSongs = songNames.filter((song) =>
+        song.toLowerCase().includes(searchTerm.toLowerCase())
       );
-
-      const handleFileUpload = (event) => {
-        const file = event.target.files[0];
-        const formData = new FormData();
-        formData.append('file', file);
       
-        axios.post('/upload', formData, {
-            onUploadProgress: (progressEvent) => {
-              const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-              setUploadProgress(percentCompleted);
-            }
-          })
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.error(error);
-            // handle error here
-          });
-      };
-      
-
     return (
 
         
@@ -62,19 +63,19 @@ const SearchUpload = () => {
           value={searchTerm}
           onChange={handleSearch}
         />
-        {jobs.length > 0 && filteredSkills.length > 0 && showList && (
+        {songNames.length > 0 && filteredSongs.length > 0 && showList && (
           <ul className="songs-list">
-            {filteredSkills.map((skill) => (
+            {filteredSongs.map((song,index) => (
               <li
                 onClick={() => {
-                  setSearchTerm(skill);
-                  setchosenSkill(skill);
+                  setSearchTerm(song);
+                  setchosenSongs(song);
                   setshowList(false);
                 }}
                 className="songsList"
-                key={skill}
+                key={index}
               >
-                {skill}
+                {song}
               </li>
             ))}
           </ul>
@@ -83,26 +84,20 @@ const SearchUpload = () => {
       </div>
 
     <div className="OR"><h2>OR</h2></div>
+
     <div className="UploadContainer">
-    <input
-        accept="audio/mp3,audio/*;capture=microphone"
-        className="UploadContainer-input"
-        id="contained-button-file"
-        type="file"
-      />
-      <label htmlFor="contained-button-file">   
-        <Button 
-         onClick={() => {
-            alert('clicked');
-            }}
-        variant="contained" 
-        color="primary" 
-        component="span"> 
-          Upload Song
-        </Button>
-      </label>
+    <div className="input-button">
+              <input
+                type="file"
+                accept="audio/*"
+                onChange={handleFileSelect}
+                id="fileInput"
+              />
+              <label htmlFor="fileInput">Choose Music File</label>
+            </div>
+            {uploadedSong && <p>Uploaded Song: {uploadedSong}</p>}
     </div>
-    {/* <LinearProgress variant="determinate" value={uploadProgress} /> */}
+   
     </div>
     );
 }

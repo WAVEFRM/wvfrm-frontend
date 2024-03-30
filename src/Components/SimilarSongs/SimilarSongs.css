@@ -1,0 +1,33 @@
+.songscard-list {
+    display: flex;
+    gap: 20px; 
+   
+    justify-content: center;
+  }
+  
+  .songscard {
+    border: 2px solid rgba(29, 185, 84, 0.5); /* Spotify green with transparency */
+    border-radius: 10px;
+    padding: 20px;
+    width:10%;
+  }
+  .songscard img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .songsdetails {
+    margin-top: 10px;
+  }
+  
+  .songsdetails h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .songsdetails p {
+    margin: 5px 0 0;
+    font-size: 14px;
+  }
+  

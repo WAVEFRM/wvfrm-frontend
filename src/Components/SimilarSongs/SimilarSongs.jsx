@@ -1,46 +1,50 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import './SimilarSongs.css'
+const SimilarSongsList = [
+  {
+    songName: "Song 1",
+    artistName: "Artist 1",
+    songImage: "https://i.scdn.co/image/ab67616d00001e0242c087c654e6c83eba52e7a3"
+  },
+  {
+    songName: "Song 2",
+    artistName: "Artist 2",
+    songImage: "https://i.scdn.co/image/ab67706f00000002dec17246891b5b4eb97bdb0d"
+  },
+  {
+    songName: "Song 3",
+    artistName: "Artist 3",
+    songImage: "https://i.scdn.co/image/ab67616d00001e02b54686226853e372258044ac"
+  },
+  {
+    songName: "Song 4",
+    artistName: "Artist 4",
+    songImage: "https://i.scdn.co/image/ab67616d00001e02ac144fcdade3e1a420901705"
+  },
+  {
+    songName: "Song 5",
+    artistName: "Artist 5",
+    songImage: "https://i.scdn.co/image/ab67616d00001e025f3ede47954a93aa03efe5f9"
+  }
+];
 
-const SimilarSongs = () => {
-    const [images, setImages] = useState([]);
-    const [currentIndex, setCurrentIndex] = useState(0);
-
-    useEffect(() => {
-        const fetchImages = async () => {
-            try {
-                // Fetching random images from a free image API
-                const response = await fetch('https://api.unsplash.com/photos/random?count=5&client_id=i7Wv2sfSUcJcnIjKgL4iOEzf7Y9jlhpqeQRRYkT3oQU');
-                const data = await response.json();
-                const imageUrls = data.map(item => item.urls.regular);
-                setImages(imageUrls);
-            } catch (error) {
-                console.error('Error fetching images:', error);
-            }
-        };
-
-        fetchImages();
-    }, []);
-
-    const handlePrev = () => {
-        setCurrentIndex(prevIndex => prevIndex === 0 ? images.length - 1 : prevIndex - 1);
-    };
-
-    const handleNext = () => {
-        setCurrentIndex(prevIndex => (prevIndex + 1) % images.length);
-    };
-
+const SimilarSongs= () => {
     return (
-        <div className="carousel-container">
-           
-            <div className="carousel" style={{width:'1',display:'flex',height:'2',}}>
-                {images.map((imageUrl, index) => (
-                    <div key={index} className={`card ${index === currentIndex ? 'active' : ''}`} style={{width:'fit-content',display:'inline-block',height:'fit-content',}}>
-                        <img src={imageUrl} alt={`Image ${index + 1}`} style={{width:'50%',}} />
-                    </div>
-                ))}
+        <div className="sim-heading"><h2>Similar songs</h2>
+      <div className="songscard-list">
+         
+        {SimilarSongsList.map((data, index) => (
+          <div className="songscard" key={index}>
+            <img src={data.songImage} alt={data.songName} />
+            <div className="songsdetails">
+              <h2>{data.songName}</h2>
+              <p>{data.artistName}</p>
             </div>
-            <button onClick={handlePrev}>Prev</button> <button onClick={handleNext}>Next</button>
-        </div>
+          </div>
+        ))}
+      </div>
+      </div>
     );
-};
-
-export default SimilarSongs;
+  };
+  
+  export default SimilarSongs;

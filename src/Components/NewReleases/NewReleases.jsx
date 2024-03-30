@@ -1,72 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import './NewReleases';
+import React from 'react';
+import './NewReleases.css'
+const SimilarSongsList = [
+  {
+    songName: "Song 1",
+    artistName: "Artist 1",
+    songImage: "https://i.scdn.co/image/ab67616d00001e0242c087c654e6c83eba52e7a3"
+  },
+  {
+    songName: "Song 2",
+    artistName: "Artist 2",
+    songImage: "https://i.scdn.co/image/ab67706f00000002dec17246891b5b4eb97bdb0d"
+  },
+  {
+    songName: "Song 3",
+    artistName: "Artist 3",
+    songImage: "https://i.scdn.co/image/ab67616d00001e02b54686226853e372258044ac"
+  },
+  {
+    songName: "Song 4",
+    artistName: "Artist 4",
+    songImage: "https://i.scdn.co/image/ab67616d00001e02ac144fcdade3e1a420901705"
+  },
+  {
+    songName: "Song 5",
+    artistName: "Artist 5",
+    songImage: "https://i.scdn.co/image/ab67616d00001e025f3ede47954a93aa03efe5f9"
+  }
+];
 
-const NewReleases = () => {
-    const [newReleasesData, setNewReleasesData] = useState([]);
-   
-    const [access_token, setAccessToken] = useState('');
-
-    useEffect(() => {
-        const fetchAccessToken = () => {
-            const access_token = window.sessionStorage.getItem('access_token');
-            setAccessToken(access_token);
-        };
-
-        fetchAccessToken();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                
-                const response = await fetch('https://api.spotify.com/v1/browse/new-releases?country=US&limit=12&offset=0', {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + access_token // Assuming access_token is defined somewhere
-                    }
-                });
-                const data = await response.json();
-                setNewReleasesData(data.albums.items);
-            } catch (error) {
-                console.error('Error fetching new releases:', error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
+const NewReleases= () => {
     return (
-        <section id="new_release">
-            <div className="heading">
-                <h1>New Releases</h1>
+        <div className="sim-heading"><h2>New Releases</h2>
+      <div className="songscard-list">
+         
+        {SimilarSongsList.map((data, index) => (
+          <div className="songscard" key={index}>
+            <img src={data.songImage} alt={data.songName} />
+            <div className="songsdetails">
+              <h2>{data.songName}</h2>
+              <p>{data.artistName}</p>
             </div>
-            <div className="card-deck">
-                <div className="row">
-                    {newReleasesData.map((album, index) => (
-                        <div key={index} className="col-12 col-md-6 col-lg-2" id={`card${index}`}>
-                            <div className="card">
-                                <a href={album.external_urls.spotify}>
-                                    <img className="card-img-top" src={album.images[1].url} alt={`Cover for ${album.name}`} />
-                                </a>
-                                <div className="card-body">
-                                    <h5 className="card-title">{album.name}</h5>
-                                    <p className="card-text">
-                                        {album.artists.map((artist, index) => (
-                                            <span key={index}>{artist.name}{index !== album.artists.length - 1 && ', '}</span>
-                                        ))}
-                                    </p>
-                                </div>
-                                <div className="card-footer">
-                                    <small className="text-muted"></small>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </section>
+          </div>
+        ))}
+      </div>
+      </div>
     );
-}
-
-export default NewReleases;
+  };
+  
+  export default NewReleases;

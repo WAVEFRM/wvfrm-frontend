@@ -1,60 +1,32 @@
-/* Style for New Releases section */
-#new_release {
-    margin-top: 20px;
-  }
-  
-  /* Style for heading */
-  .heading {
-    text-align: center;
-  }
-  
-  /* Style for card deck */
-  .card-deck {
-    margin-top: 20px;
-  }
-  
-  /* Style for card */
-  .card {
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .card:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transform: translateY(-3px);
-  }
-  
-  /* Style for card image */
-  .card-img-top {
-    width: 100%;
-    height: auto;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-  }
-  
-  /* Style for card body */
-  .card-body {
-    padding: 10px;
-  }
-  
-  /* Style for card title */
-  .card-title {
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-  
-  /* Style for card text */
-  .card-text {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 0;
-  }
-  
-  /* Style for card footer */
-  .card-footer {
-    background-color: #f8f9fa;
-    padding: 5px 10px;
-  }
-  
+.songscard-list {
+  display: flex;
+  gap: 20px; 
+ 
+  justify-content: center;
+}
+
+.songscard {
+  border: 2px solid rgba(29, 185, 84, 0.5); /* Spotify green with transparency */
+  border-radius: 10px;
+  padding: 20px;
+  width:10%;
+}
+.songscard img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+.songsdetails {
+  margin-top: 10px;
+}
+
+.songsdetails h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.songsdetails p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}

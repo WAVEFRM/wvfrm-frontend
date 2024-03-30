@@ -112,6 +112,7 @@ export default function Signup() {
             label="Date of Birth"
             value={dob}
             onChange={handleDateChange}
+           disableFuture
           />
                  </DemoContainer>
              </LocalizationProvider>
