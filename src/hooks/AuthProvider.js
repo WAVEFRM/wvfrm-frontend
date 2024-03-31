@@ -33,9 +33,11 @@ const AuthProvider = ({ children }) => {
       // Log if user has a profile and navigate accordingly
       if (profileResponse.has_profile) {
         console.log('Has User Profile');
+        setUserProfile(profileResponse.user_profile);
         navigate('/');
       } else {
         console.log('No User Profile');
+        setUserProfile(null);
         navigate('/signup');
       }
     } catch (error) {
