@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getSpotifyAccessTokenFromRefresh, searchTrack, newReleases } from '../../services/spotify-service';
+import { getSpotifyAccessTokenFromRefresh, searchTrack, newReleases } from '../../services/spotify/spotify-service';
 import Navbar from '../../components/Navbar/Navbar';
 import SearchUpload from '../../components/SearchUpload/SearchUpload';
 import Footer from '../../components/Footer/Footer';

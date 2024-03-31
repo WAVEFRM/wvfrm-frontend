@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { useState, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
@@ -30,7 +30,6 @@ const AuthProvider = ({ children }) => {
     onSuccess: async (codeResponse) => {
       try {
         console.log('Google login successful');
-        // You may want to perform additional actions after successful login
         setToken(codeResponse.access_token);
         const profile = await fetchGoogleProfile(codeResponse.access_token);
         setUser(profile);
@@ -57,5 +56,5 @@ const AuthProvider = ({ children }) => {
 export default AuthProvider;
 
 export const useAuth = () => {
-  return React.useContext(AuthContext);
+  return useContext(AuthContext);
 };

@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
+import AuthProvider from './hooks/AuthProvider';
+
 import Landing from './pages/LandingPage/LandingPage';
 import SignUp from './pages/SignUp/SignUp';
 import HomePage from './pages/HomePage/HomePage';
@@ -8,9 +10,8 @@ import Results from './pages/Results/Results';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
+import TestPage from './pages/TestPage/TestPage';
 import './App.css';
-
-import AuthProvider from './hooks/AuthProvider';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/results" element={<Results />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/test-page" element={<TestPage />} />
           <Route path="/*" element={<ErrorPage />} />
         </Routes>
       </AuthProvider>
