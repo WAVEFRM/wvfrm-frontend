@@ -1,13 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthProvider';
 import { BASE_URL } from '../../services/api/auth-profile';
 import Loading from '../Loading/Loading';
 
 const PrivateRoute = () => {
-  const { userProfile, setUserProfile, setAccessToken, setRefreshToken, logout } = useAuth();
+  const {
+    hasProfile,
+    isLoggedIn,
+    setUserProfile,
+    setAccessToken,
+    setRefreshToken,
+    setHasProfile,
+    setIsLoggedIn,
+    logout,
+  } = useAuth();
   const [profileCheckComplete, setProfileCheckComplete] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('accessToken') || '';
@@ -22,15 +32,16 @@ const PrivateRoute = () => {
           },
         });
         if (response.status === 200) {
-          if (response.data.has_profile === true) {
-            setUserProfile(response.data.user_profile);
-          }
+          setUserProfile(response.data.user_profile);
           setAccessToken(token);
           setRefreshToken(storedRefreshToken);
+          setHasProfile(response.data.has_profile);
+          setIsLoggedIn(true); // Set isLoggedIn to true
         }
       } catch (error) {
         console.error('Error fetching profile:', error);
         // If there's an error, clear the tokens and user profile
+        console.log('ROROORRORORO');
         logout();
       } finally {
         // Set profile check as complete after the request is finished
@@ -48,19 +59,31 @@ const PrivateRoute = () => {
     };
 
     checkProfileAndSetTokens();
-  }, [setUserProfile, setAccessToken, setRefreshToken]);
+  }, []);
 
   if (!profileCheckComplete) {
     // If profile check is not complete, show loading or some other indication
     return <Loading />;
   }
 
-  if (!userProfile) {
-    console.log('User not logged in');
+  if (!isLoggedIn) {
+    // If not logged in, redirect to landing
     return <Navigate to="/landing" />;
   }
 
-  console.log('User logged in', userProfile);
+  if (!hasProfile && location.pathname !== '/signup') {
+    // If logged in but has no profile and not on the signup page, redirect to the signup page
+    console.log('NO PROFILE, REDIRECTING TO SIGNUP');
+    return <Navigate to="/signup" />;
+  }
+
+  if (hasProfile && location.pathname === '/signup') {
+    // If logged in and has a profile but on the signup page, redirect to the home page
+    console.log('HAS PROFILE, REDIRECTING TO HOME');
+    return <Navigate to="/" />;
+  }
+
+  // Render protected routes if logged in and has a profile, or if already on the signup page
   return <Outlet />;
 };
 

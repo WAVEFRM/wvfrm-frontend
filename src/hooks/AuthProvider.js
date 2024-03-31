@@ -10,7 +10,17 @@ const AuthProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState(null);
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || '');
   const [refreshToken, setRefreshToken] = useState('');
+  const [hasProfile, setHasProfile] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // New state
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('Has Profile Changed!!!:', hasProfile);
+  }, [hasProfile]);
+
+  useEffect(() => {
+    console.log('isLoggedIn Profile Changed!!!:', isLoggedIn);
+  }, [isLoggedIn]);
 
   useEffect(() => {
     const storedAccessToken = localStorage.getItem('accessToken') || '';
@@ -24,11 +34,12 @@ const AuthProvider = ({ children }) => {
             Accept: 'application/json',
           },
         });
-        console.log('AAA', response);
         if (response.status === 200) {
           setUserProfile(response.data.user_profile);
           setAccessToken(token);
           setRefreshToken(storedRefreshToken);
+          setHasProfile(response.data.has_profile);
+          setIsLoggedIn(true); // Set isLoggedIn to true
           console.log('USER IS ALREADY IN');
         }
       } catch (error) {
@@ -64,12 +75,15 @@ const AuthProvider = ({ children }) => {
       if (profileResponse.has_profile) {
         console.log('Has User Profile');
         setUserProfile(profileResponse.user_profile);
-        navigate('/');
+        setHasProfile(true);
       } else {
         console.log('No User Profile');
         setUserProfile(null);
-        navigate('/signup');
+        setHasProfile(false);
       }
+
+      setIsLoggedIn(true); // Set isLoggedIn to true
+      navigate('/');
     } catch (error) {
       console.error('Error during Google login:', error);
     }
@@ -86,12 +100,27 @@ const AuthProvider = ({ children }) => {
     setRefreshToken('');
     localStorage.removeItem('accessToken'); // Remove 'accessToken' from local storage
     localStorage.removeItem('refreshToken'); // Remove 'refreshToken' from local storage
+    setHasProfile(false);
+    setIsLoggedIn(false); // Set isLoggedIn to false on logout
     navigate('/landing');
   };
 
   return (
     <AuthContext.Provider
-      value={{ userProfile, accessToken, refreshToken, setUserProfile, setAccessToken, setRefreshToken, login, logout }}
+      value={{
+        userProfile,
+        accessToken,
+        refreshToken,
+        hasProfile,
+        isLoggedIn,
+        setUserProfile,
+        setAccessToken,
+        setRefreshToken,
+        setHasProfile,
+        setIsLoggedIn,
+        login,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
