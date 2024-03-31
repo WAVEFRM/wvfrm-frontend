@@ -3,9 +3,10 @@ import axios from 'axios';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../../hooks/AuthProvider';
 import { BASE_URL } from '../../services/api/auth-profile';
+import Loading from '../Loading/Loading';
 
 const PrivateRoute = () => {
-  const { userProfile, setUserProfile, setAccessToken, setRefreshToken } = useAuth();
+  const { userProfile, setUserProfile, setAccessToken, setRefreshToken, logout } = useAuth();
   const [profileCheckComplete, setProfileCheckComplete] = useState(false);
 
   useEffect(() => {
@@ -30,8 +31,7 @@ const PrivateRoute = () => {
       } catch (error) {
         console.error('Error fetching profile:', error);
         // If there's an error, clear the tokens and user profile
-        setAccessToken('');
-        setRefreshToken('');
+        logout();
       } finally {
         // Set profile check as complete after the request is finished
         setProfileCheckComplete(true);
@@ -52,7 +52,7 @@ const PrivateRoute = () => {
 
   if (!profileCheckComplete) {
     // If profile check is not complete, show loading or some other indication
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!userProfile) {
