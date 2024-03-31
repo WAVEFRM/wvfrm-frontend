@@ -53,4 +53,4 @@ const checkProfile = async (accessToken) => {
   }
 };
 
-export { convertToken, convertRefreshToken, checkProfile };
+export { BASE_URL, convertToken, convertRefreshToken, checkProfile };

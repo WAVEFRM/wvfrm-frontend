@@ -1,7 +1,8 @@
-import React, { useState, createContext, useContext } from 'react';
+import React, { useState, useEffect, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import { convertToken, checkProfile } from '../services/api/auth-profile';
+import { BASE_URL, convertToken, checkProfile } from '../services/api/auth-profile';
+import axios from 'axios';
 
 const AuthContext = createContext();
 
@@ -10,6 +11,35 @@ const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken') || '');
   const [refreshToken, setRefreshToken] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedAccessToken = localStorage.getItem('accessToken') || '';
+    const storedRefreshToken = localStorage.getItem('refreshToken') || '';
+
+    const getCheckProfile = async (token) => {
+      try {
+        const response = await axios.get(`${BASE_URL}/profile/check_profile/`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: 'application/json',
+          },
+        });
+        console.log('AAA', response);
+        if (response.status === 200) {
+          setUserProfile(response.data.user_profile);
+          setAccessToken(token);
+          setRefreshToken(storedRefreshToken);
+          console.log('USER IS ALREADY IN');
+        }
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+
+    if (storedAccessToken) {
+      getCheckProfile(storedAccessToken);
+    }
+  }, []);
 
   const handleLoginSuccess = async (codeResponse) => {
     try {
@@ -60,7 +90,9 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ userProfile, accessToken, refreshToken, login, logout }}>
+    <AuthContext.Provider
+      value={{ userProfile, accessToken, refreshToken, setUserProfile, setAccessToken, setRefreshToken, login, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

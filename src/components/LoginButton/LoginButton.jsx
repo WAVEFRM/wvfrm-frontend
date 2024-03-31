@@ -9,7 +9,7 @@ function LoginButton() {
 
   return (
     <div className="loginbtn">
-      <button type="button" class="google-sign-in-button" onClick={login}>
+      <button type="button" className="google-sign-in-button" onClick={login}>
         Sign in with Google
       </button>
     </div>
