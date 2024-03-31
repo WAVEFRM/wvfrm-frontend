@@ -4,21 +4,38 @@ const BASE_URL = process.env.REACT_APP_DRF_BASE_URL;
 const clientId = process.env.REACT_APP_DRF_CLIENT_ID;
 const clientSecret = process.env.REACT_APP_DRF_CLIENT_SECRET;
 
-const convertToken = async (token) => {
+const convertToken = async (googleAccessToken) => {
   const url = `${BASE_URL}/auth/convert-token/`;
   const body = {
-    client_id: clientId,
     grant_type: 'convert_token',
+    client_id: clientId,
     client_secret: clientSecret,
     backend: 'google-oauth2',
-    token: token,
+    token: googleAccessToken,
   };
 
   try {
     const response = await axios.post(url, body);
     return response.data;
   } catch (error) {
-    console.error('Error converting token:', error);
+    console.error('Error converting google access token:', error);
+  }
+};
+
+const convertRefreshToken = async (refreshToken) => {
+  const url = `${BASE_URL}/auth/token/`;
+  const body = {
+    grant_type: 'refresh_token',
+    client_id: clientId,
+    client_secret: clientSecret,
+    refresh_token: refreshToken,
+  };
+
+  try {
+    const response = await axios.post(url, body);
+    return response.data;
+  } catch (error) {
+    console.error('Error converting refresh token:', error);
   }
 };
 
@@ -36,4 +53,4 @@ const checkProfile = async (accessToken) => {
   }
 };
 
-export { convertToken, checkProfile };
+export { convertToken, convertRefreshToken, checkProfile };
