@@ -53,4 +53,19 @@ const checkProfile = async (accessToken) => {
   }
 };
 
-export { BASE_URL, convertToken, convertRefreshToken, checkProfile };
+const createProfile = async (accessToken, profileData) => {
+  try {
+    const response = await axios.post(`${BASE_URL}/profile/create_profile/`, profileData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    console.log('ooooofoofoofof', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating profile:', error);
+  }
+};
+
+export { convertToken, convertRefreshToken, checkProfile, createProfile };

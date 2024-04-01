@@ -15,7 +15,7 @@ const VisuallyHiddenInput = styled('input')`
   width: 1px;
 `;
 
-export default function UploadButton() {
+function UploadArea() {
   return (
     <Button
       component="label"
@@ -46,3 +46,5 @@ export default function UploadButton() {
     </Button>
   );
 }
+
+export default UploadArea;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { getSpotifyAccessTokenFromRefresh, searchTrack, newReleases } from '../../services/spotify/spotify-service';
 import Navbar from '../../components/Navbar/Navbar';
 import SearchUpload from '../../components/SearchUpload/SearchUpload';
+import UploadArea from '../../components/UploadArea/UploadArea';
 import Footer from '../../components/Footer/Footer';
 import NewReleases from '../../components/NewReleases/NewReleases';
 import Loading from '../../components/Loading/Loading';
@@ -44,7 +44,7 @@ function HomePage() {
         setSpotifyAccessToken(newAccessToken);
         const releases = await newReleases(newAccessToken);
         setNewReleasesData(releases.albums.items);
-        const trackNames = await searchTrack(newAccessToken, 'water');
+        const trackNames = await searchTrack(newAccessToken, 'waterme');
         setSearchResults(trackNames);
         console.log('Track names:', trackNames);
 
@@ -68,6 +68,11 @@ function HomePage() {
     <div className="homepage-container">
       <Navbar />
       <SearchUpload />
+      <UploadArea />
+      <br />
+      <br />
+      <br />
+      <br />
       {loading && <Loading />}
       {!loading && error && <p>Error: {error.message}</p>}
       {!loading && !error && <NewReleases newReleasesData={newReleasesData} />}

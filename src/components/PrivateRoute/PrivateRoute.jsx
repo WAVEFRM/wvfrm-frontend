@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../hooks/AuthProvider';
-import { BASE_URL } from '../../services/api/auth-profile';
 import Loading from '../Loading/Loading';
 
 const PrivateRoute = () => {
+  const BASE_URL = process.env.REACT_APP_DRF_BASE_URL;
+
   const {
     hasProfile,
     isLoggedIn,

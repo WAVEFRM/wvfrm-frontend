@@ -1,44 +1,35 @@
 import * as React from 'react';
 import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
-import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import LandingCard from './LandingCard/LandingCard';
 import Grid from '@mui/material/Grid';
 
 const featuredPosts = [
-    {
-      title: 'Search or Upload Your Music',
-      date: 'Nov 12',
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-      image: 'https://source.unsplash.com/random?wallpapers',
-      imageLabel: 'Image Text',
-    },
-    {
-      title: 'Predict its popularity',
-      date: 'Nov 11',
-      description:
-        'This is a wider card with supporting text below as a natural lead-in to additional content.',
-      image: 'https://source.unsplash.com/random?wallpapers',
-      imageLabel: 'Image Text',
-    },
-    {
-        title: 'View the Prediction Results',
-        date: 'Nov 11',
-        description:
-          'This is a wider card with supporting text below as a natural lead-in to additional content.',
-        image: 'https://source.unsplash.com/random?wallpapers',
-        imageLabel: 'Image Text',
-      },
-  ];
-
-
-
+  {
+    title: 'Search or Upload Your Music',
+    date: 'Nov 12',
+    description: 'This is a wider card with supporting text below as a natural lead-in to additional content.',
+    image: 'https://source.unsplash.com/random?wallpapers',
+    imageLabel: 'Image Text',
+  },
+  {
+    title: 'Predict its popularity',
+    date: 'Nov 11',
+    description: 'This is a wider card with supporting text below as a natural lead-in to additional content.',
+    image: 'https://source.unsplash.com/random?wallpapers',
+    imageLabel: 'Image Text',
+  },
+  {
+    title: 'View the Prediction Results',
+    date: 'Nov 11',
+    description: 'This is a wider card with supporting text below as a natural lead-in to additional content.',
+    image: 'https://source.unsplash.com/random?wallpapers',
+    imageLabel: 'Image Text',
+  },
+];
 
 export default function Hero() {
   return (
@@ -80,8 +71,7 @@ export default function Hero() {
               variant="h1"
               sx={{
                 fontSize: 'clamp(3rem, 10vw, 4rem)',
-                color: (theme) =>
-                  theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+                color: (theme) => (theme.palette.mode === 'light' ? 'primary.main' : 'primary.light'),
               }}
             >
               WAVEFORM
@@ -92,16 +82,16 @@ export default function Hero() {
             color="text.secondary"
             sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
           >
-            A tool that will use real-world data from Spotify to train and predict the chances of whether a piece of Music has a potential HIT FACTOR.
+            A tool that will use real-world data from Spotify to train and predict the chances of whether a piece of
+            Music has a potential HIT FACTOR.
           </Typography>
-          
         </Stack>
-        
-             <Grid container spacing={2} direction="column" justifyContent="space-between" alignItems="center">           
-            {featuredPosts.map((post) => (
-              <LandingCard key={post.title} post={post} />
-            ))}
-            </Grid>
+
+        <Grid container spacing={2} direction="column" justifyContent="space-between" alignItems="center">
+          {featuredPosts.map((post) => (
+            <LandingCard key={post.title} post={post} />
+          ))}
+        </Grid>
       </Container>
     </Box>
   );

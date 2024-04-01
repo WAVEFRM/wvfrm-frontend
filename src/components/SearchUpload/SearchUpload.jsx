@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './SearchUpload.css';
-import UploadButton from '../UploadButton/UploadButton';
 
 const SearchUpload = () => {
   const songNames = [
@@ -59,15 +58,6 @@ const SearchUpload = () => {
       <div className="OR">
         <h2>OR</h2>
       </div>
-
-      <div className="UploadContainer">
-        <div className="input-button">
-          <input type="file" accept="audio/*" onChange={handleFileSelect} id="fileInput" />
-          <label htmlFor="fileInput">Choose Music File</label>
-        </div>
-        {uploadedSong && <p>Uploaded Song: {uploadedSong}</p>}
-      </div>
-      <UploadButton />
     </div>
   );
 };

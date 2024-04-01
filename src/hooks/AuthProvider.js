@@ -1,10 +1,12 @@
 import React, { useState, useEffect, createContext, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGoogleLogin } from '@react-oauth/google';
-import { BASE_URL, convertToken, checkProfile } from '../services/api/auth-profile';
+import { convertToken, checkProfile } from '../services/api/auth-profile';
 import axios from 'axios';
 
 const AuthContext = createContext();
+
+const BASE_URL = process.env.REACT_APP_DRF_BASE_URL;
 
 const AuthProvider = ({ children }) => {
   const [userProfile, setUserProfile] = useState(null);
