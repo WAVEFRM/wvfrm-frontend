@@ -9,7 +9,7 @@ function Predict() {
     <div>
       <Navbar />
       <Playback />
-      <SimilarSongs />
+      {/* <SimilarSongs /> */}
       <Footer />
     </div>
   );

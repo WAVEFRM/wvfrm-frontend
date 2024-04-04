@@ -3,11 +3,12 @@ import { NavLink } from 'react-router-dom';
 import wvfmFavicon from '../../assets/wvfrm-transparent.png';
 import GithubIcon from '@mui/icons-material/GitHub';
 
+
 function Footer() {
   return (
-    <div className="container">
+    <div className="footer-container">
       <footer
-        className="bg-dark d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top"
+        className="bg-dark d-flex flex-wrap justify-content-between align-items-center py-3 border-top footerdiv"
         data-bs-theme="dark"
       >
         <div className="col-md-4 d-flex align-items-center">

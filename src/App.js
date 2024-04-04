@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage/HomePage';
 import Profile from './pages/Profile/Profile';
 import Predict from './pages/Predict/Predict';
 import Results from './pages/Results/Results';
+import Stat from './pages/Stat/Stat';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
 import ErrorPage from './pages/ErrorPage/ErrorPage';
@@ -26,6 +27,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/predict" element={<Predict />} />
             <Route path="/results" element={<Results />} />
+            <Route path="/stat" element={<Stat />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/test-page" element={<TestPage />} />

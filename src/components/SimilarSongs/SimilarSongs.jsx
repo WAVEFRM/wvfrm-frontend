@@ -48,3 +48,27 @@ const SimilarSongs= () => {
   };
   
   export default SimilarSongs;
+
+// import React from 'react';
+// import './SimilarSongs.css';
+// import Grid from '@mui/material/Grid';
+// import ReleaseCard from '../../components/ReleaseCard/ReleaseCard';
+
+
+// const SimilarSongs = (props) => {
+//   const first5Releases=props.newReleasesData.slice(0,6);
+//   return (
+//     <div className="similar-songs-container">
+//       <h2>Similar songs</h2>
+//       <Grid container spacing={2}>
+//         {first5Releases.map((release) => (
+//           <Grid item xs={6} sm={4} md={2} key={release.id}>
+//             <ReleaseCard release={release} />
+//           </Grid>
+//         ))}
+//       </Grid>
+//     </div>
+//   );
+// };
+
+// export default SimilarSongs;

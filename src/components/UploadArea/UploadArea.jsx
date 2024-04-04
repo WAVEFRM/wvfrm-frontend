@@ -42,7 +42,7 @@ function UploadArea() {
       }
     >
       Upload a Song
-      <VisuallyHiddenInput type="file" />
+      <VisuallyHiddenInput type="file" accept="audio/mp3" />
     </Button>
   );
 }

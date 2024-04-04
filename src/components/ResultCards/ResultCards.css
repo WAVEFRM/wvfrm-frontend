@@ -1,0 +1,59 @@
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.result-card-section-navigation {
+    display: flex;
+    gap: 10px;
+}
+
+.result-card-section-button {
+    background-color: #2d92f0;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+.result-card-section-button.active {
+    background-color: #1c395c;
+}
+
+.result-card-section {
+    margin-bottom: 20px;
+    display:flex;   
+    flex-wrap: wrap;
+    gap:20px;  
+    justify-content: center;
+}
+
+.result-card-heading {
+    color: #254461;
+}
+
+.result-card-divider {
+    border: 2px solid #0784f9;
+}
+
+.result-card-in-progress {
+    border-left: 7px solid orange;
+    border-radius: 1rem;
+
+}
+
+.result-card-completed {
+    border-left: 7px solid green;
+    border-radius: 1rem;
+
+}
+
+.result-card-failed {
+    border-left: 7px solid red;
+    border-radius: 1rem;
+
+}
+
