@@ -1,0 +1,86 @@
+.loading-container {
+    --lightblk: #1e2124;
+    --blk: #18191a;
+    --blue: 0, 255, 238;
+    --bg: #111417;
+    --white: #fff;
+  
+    background-color: var(--bg);
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    margin: 0;
+    gap: 10px;
+    flex-wrap: wrap;
+    z-index: 2;
+  }
+  
+  .loading-container .box {
+    position: relative;
+    border-radius: 100%;
+    background-color: var(--lightblk);
+    height: 50px;
+    width: 50px;
+    transition: 0.5s ease-in-out;
+  }
+  
+  .loading-container .txt {
+    display: none;
+    color: var(--lightblk);
+    font-family: "Red Hat Text";
+    font-weight: 700;
+    font-size: 25px;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+  
+  .loading-container .box::before {
+    content: attr(data-text);
+  }
+  
+  .loading-container .box::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  
+  .loading-container .box:hover::after {
+    opacity: 1;
+  }
+  
+  .loading-container .box::before,
+  .loading-container .box::after {
+    font-size: 25px;
+    font-family: "Red Hat Text";
+    font-weight: 700;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  
+  @keyframes loading_anim {
+    0% {
+      background-color: var(--lightblk);
+    }
+    50% {
+      transform: translate(0px, -50px);
+      background-color: white;
+    }
+    100% {
+      background-color: var(--lightblk);
+    }
+  }
+  

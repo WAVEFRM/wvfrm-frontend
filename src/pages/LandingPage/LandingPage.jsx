@@ -4,6 +4,7 @@ import Hero from '../../components/Hero';
 import Footer from '../../components/Footer/Footer';
 
 function LandingPage() {
+  
   return (
     <div>
       <LandingNavbar />

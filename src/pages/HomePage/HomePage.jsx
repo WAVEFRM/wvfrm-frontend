@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getSpotifyAccessTokenFromRefresh, searchTrack, newReleases } from '../../services/spotify/spotify-service';
+import { getSpotifyAccessTokenFromRefresh, newReleases } from '../../services/spotify/spotify-service';
 import Navbar from '../../components/Navbar/Navbar';
 import SearchUpload from '../../components/SearchUpload/SearchUpload';
 import UploadArea from '../../components/UploadArea/UploadArea';
@@ -12,7 +12,7 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newReleasesData, setNewReleasesData] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,19 +22,17 @@ function HomePage() {
         // Check if data is cached in local storage
         const cachedAccessToken = localStorage.getItem('spotifyAccessToken');
         const cachedReleases = localStorage.getItem('newReleasesData');
-        const cachedSearchResults = localStorage.getItem('searchResults');
         const cachedTimestamp = localStorage.getItem('cachedTimestamp');
 
-        if (cachedAccessToken && cachedReleases && cachedSearchResults && cachedTimestamp) {
+        if (cachedAccessToken && cachedReleases && cachedTimestamp) {
           const timestamp = parseInt(cachedTimestamp);
           const currentTime = new Date().getTime();
           const elapsedTime = currentTime - timestamp;
-          const expirationTime = 1000 * 60 * 2; // 2 mins in milliseconds
+          const expirationTime = 1000 * 60 * 2;
 
           if (elapsedTime < expirationTime) {
             setSpotifyAccessToken(cachedAccessToken);
             setNewReleasesData(JSON.parse(cachedReleases));
-            setSearchResults(JSON.parse(cachedSearchResults));
             setLoading(false);
             return;
           }
@@ -44,19 +42,16 @@ function HomePage() {
         setSpotifyAccessToken(newAccessToken);
         const releases = await newReleases(newAccessToken);
         setNewReleasesData(releases.albums.items);
-        const trackNames = await searchTrack(newAccessToken, 'waterme');
-        setSearchResults(trackNames);
-        console.log('Track names:', trackNames);
+
 
         // Cache data in local storage with timestamp
         localStorage.setItem('spotifyAccessToken', newAccessToken);
         localStorage.setItem('newReleasesData', JSON.stringify(releases.albums.items));
-        localStorage.setItem('searchResults', JSON.stringify(trackNames));
         localStorage.setItem('cachedTimestamp', new Date().getTime().toString());
 
         setLoading(false);
       } catch (error) {
-        setError(error);
+        setError(error); 
         setLoading(false);
       }
     };

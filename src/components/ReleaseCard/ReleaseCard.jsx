@@ -6,7 +6,10 @@ import { CardActionArea } from '@mui/material';
 
 function ReleaseCard({ release }) {
   const maxLength = 40;
-  let displayText = release.name + ', ' + release.artists.map((artist) => artist.name).join(', ');
+  let displayText = release.name;
+  if (release.artists && release.artists.length > 0) {
+    displayText += ', ' + release.artists.map((artist) => artist.name).join(', ');
+  }
 
   if (displayText.length > maxLength) {
     displayText = release.name;
@@ -14,8 +17,8 @@ function ReleaseCard({ release }) {
 
   return (
     <Card sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <CardActionArea component="a" href={release.external_urls.spotify} sx={{ flexGrow: 1 }}>
-        <CardMedia component="img" image={release.images[0].url} alt={release.name} sx={{ height: 200 }} />
+      <CardActionArea component="a" href={release.external_urls?.spotify} sx={{ flexGrow: 1 }}>
+        <CardMedia component="img" image={release.images?.[0]?.url} alt={release.name} sx={{ height: 200 }} />
         <Typography variant="body1" color="text.secondary" align="center" sx={{ p: 2 }}>
           {displayText}
         </Typography>

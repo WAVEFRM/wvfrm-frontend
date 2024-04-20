@@ -6,6 +6,9 @@ const SPOTIFY_CONFIG = {
   clientSecret: process.env.REACT_APP_SPOTIFY_CLIENT_SECRET,
   refreshToken: process.env.REACT_APP_SPOTIFY_REFRESH_TOKEN,
   searchUrl: process.env.REACT_APP_SPOTIFY_SEARCH_URL,
+  artistUrl: process.env.REACT_APP_SPOTIFY_ARTIST_URL,
+  trackUrl: process.env.REACT_APP_SPOTIFY_TRACK_URL,
+  audioFeaturesUrl: process.env.REACT_APP_SPOTIFY_AUDIO_FEATURES_URL
 };
 
 const getSpotifyAccessTokenFromRefresh = async () => {
@@ -55,6 +58,23 @@ const newReleases = async (spotifyAccessToken, options = {}) => {
     throw error;
   }
 };
+const similarSongs = async (spotifyAccessToken,seed_artist,seed_track,seed_genres, options = {}) => {
+  const {
+    limit = 6,
+    market = 'US',
+    offset=0
+  } = options;
+
+  const genresArray = seed_genres.split(',').join('%2C'); 
+
+  const url = `https://api.spotify.com/v1/recommendations?limit=${limit}&market=${market}&seed_artists=${seed_artist}&seed_genres=${genresArray}&seed_tracks=${seed_track}`;
+  console.log(url);
+  try {
+    return await fetchSpotifyData(spotifyAccessToken, url);
+  } catch (error) {
+    throw error;
+  }
+};
 
 const searchTrack = async (spotifyAccessToken, query, options = {}) => {
   const { searchUrl } = SPOTIFY_CONFIG;
@@ -65,10 +85,142 @@ const searchTrack = async (spotifyAccessToken, query, options = {}) => {
     const response = await fetchSpotifyData(spotifyAccessToken, url);
     const searchItems = response.tracks?.items;
     const trackNames = searchItems.map((item) => item.name);
-    return trackNames;
+    const fullData = searchItems.map((item) => item);
+    console.log(fullData);
+    return searchItems;
   } catch (error) {
     throw error;
   }
 };
 
-export { SPOTIFY_CONFIG, getSpotifyAccessTokenFromRefresh, newReleases, searchTrack };
+const getArtistDetails = async (spotifyAccessToken,artistId,options={})=>
+{
+  const { artistUrl } = SPOTIFY_CONFIG;
+  const url = `${artistUrl}/${artistId}`;
+
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    console.log(response);
+    return response; // Assuming the response contains artist details
+  } catch (error) {
+    throw error;
+  }
+};
+const getArtistsDetails = async (spotifyAccessToken, artistIds, options = {}) => {
+  const { artistUrl } = SPOTIFY_CONFIG;
+  const idsString = artistIds.join(',');
+  const url = `${artistUrl}?ids=${idsString}`;
+
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    return response; // Assuming the response contains artist details
+  } catch (error) {
+    throw error;
+  }
+};
+const getAlbumIds = async (spotifyAccessToken, most_popid, options = {}) => {
+  const { artistUrl } = SPOTIFY_CONFIG;
+  const { limit = 20, offset = 0 } = options;
+  const url = `${artistUrl}/${most_popid}/albums?include_groups=single%2Calbum&limit=${limit}&offset=${offset}`;
+
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    const albums = response.items;
+    const albumIds = albums.map(album => album.id);
+    return albumIds;
+  } catch (error) {
+    throw error;
+  }
+};
+const getAlbumTracks = async (spotifyAccessToken, albumIds) => {
+  const albstr = albumIds.join(',');
+  const url = `https://api.spotify.com/v1/albums?ids=${albstr}&market=US`;
+
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    const albumTracks = response.albums.map(album => album.tracks.items).flat();
+    return albumTracks;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+// Function to get the duration of tracks
+const getTrackDurations = async (spotifyAccessToken, trackIds) => {
+  const batchSize = 50;
+  let trackDurations = [];
+
+  for (let i = 0; i < trackIds.length; i += batchSize) {
+    const batchIds = trackIds.slice(i, i + batchSize);
+    const idsString = batchIds.join(',');
+    const url = `https://api.spotify.com/v1/tracks?market=US&ids=${idsString}`;
+
+    try {
+      const response = await fetchSpotifyData(spotifyAccessToken, url);
+      const batchDurations = response.tracks.map(track => ({
+        id: track.id,
+        duration_ms: track.duration_ms,
+        popularity: track.popularity
+      }));
+      trackDurations = trackDurations.concat(batchDurations);
+    } catch (error) {
+      console.error('Error fetching track durations:', error);
+      // Handle error
+    }
+  }
+
+  return trackDurations;
+};
+
+
+// Function to get the audio features of tracks
+const getAudioFeatures = async (spotifyAccessToken, trackIds) => {
+  const batchSize = 50;
+  let audioFeatures = [];
+
+  for (let i = 0; i < trackIds.length; i += batchSize) {
+    const batchIds = trackIds.slice(i, i + batchSize);
+    const idsString = batchIds.join(',');
+    const url = `https://api.spotify.com/v1/audio-features?ids=${idsString}`;
+
+    try {
+      const response = await fetchSpotifyData(spotifyAccessToken, url);
+      audioFeatures = audioFeatures.concat(response.audio_features);
+    } catch (error) {
+      console.error('Error fetching audio features:', error);
+      // Handle error
+    }
+  }
+
+  return audioFeatures;
+};
+const getAudioFeature = async (spotifyAccessToken,trackId)=>{
+  
+  const url = `https://api.spotify.com/v1/audio-features/${trackId}`;
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    return response; // Assuming the response contains artist details
+  } catch (error) {
+    throw error;
+  }
+
+}
+
+// To get Similar songs
+const getSimilarSongs = async (spotifyAccessToken,artistId, seedGenres,trackId) => {
+  const limit=6;
+  const market='US';
+  const genres = seedGenres.join(', ');
+  const url = `https://api.spotify.com/v1/recommendations?limit=${limit}&market=${market}&seed_artists=${artistId}&seed_genres=${genres}&seed_tracks=${trackId}`;
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    console.log(response);
+    return response; // Assuming the response contains artist details
+  }
+  catch (error) {
+    throw error;
+  }
+}
+export { SPOTIFY_CONFIG, getSpotifyAccessTokenFromRefresh, newReleases, searchTrack, similarSongs, getArtistDetails, getArtistsDetails, getAlbumIds, getAlbumTracks, getTrackDurations, getAudioFeatures,getAudioFeature,getSimilarSongs};
+

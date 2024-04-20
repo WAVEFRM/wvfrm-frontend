@@ -1,21 +1,12 @@
-import React,{useState,useEffect}from 'react';
+import React from 'react';
 import Grid from '@mui/material/Grid';
 import ReleaseCard from '../../components/ReleaseCard/ReleaseCard';
 
 const SimilarSongs = (props) => {
 
-  const [similarSongs, setsimilarSongs] = useState([]);
- 
-  useEffect(() => {
-    const similarsongs = localStorage.getItem('newReleasesData');
-    if (similarsongs) {   
-      const parsedData = JSON.parse(similarsongs);
-      setsimilarSongs(parsedData);
-    }
-  }, []);
-
-   const first5Releases=similarSongs.slice(0,6);
-
+  const {similarSongs} = props;
+  const first5Releases=similarSongs;
+  console.log(first5Releases);
   return (
    
     <div className="similarsongs-container">

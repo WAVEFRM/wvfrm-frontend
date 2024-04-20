@@ -1,0 +1,11 @@
+.playbackPredictbtn
+{
+    width: 20%;
+
+}
+.predictContainer
+{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
