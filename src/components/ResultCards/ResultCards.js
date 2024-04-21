@@ -15,7 +15,7 @@ import failedImage from '../../assets/red-disc.jpg';
 
 const ResultCard = ({ name, artist, url,image_url, }) => {
     return (
-      <Card sx={{ display: 'flex', marginBottom: '20px' }}>
+      <Card sx={{ display: 'flex' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
           <CardContent sx={{ flex: '1 0 auto' }}>
             <Typography component="div" variant="h5">

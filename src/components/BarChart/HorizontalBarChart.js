@@ -14,7 +14,7 @@ const HorizontalBarChart = ({ datas }) => {
 
     // Sample data for the chart
     const data = {
-        labels: ['Acousticness', 'Danceability', 'Instrumentalness','Speechiness','Valence', 'Energy', 'Liveness'],
+        labels: ['Acousticness', 'Danceability', 'Instrumentalness','Valence','Energy', 'Liveness', 'Speechiness'],
         datasets: [
             {
                 label: 'Song Attributes',
