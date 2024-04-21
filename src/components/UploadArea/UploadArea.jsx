@@ -9,6 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormHelperText from '@mui/material/FormHelperText';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material';
+import { Snackbar, IconButton } from '@mui/material';
+import { Close } from '@mui/icons-material';
 import './UploadArea.css';
 
 import { lowLevelPrediction } from '../../services/api/prediction-results';
@@ -41,6 +43,8 @@ function UploadArea() {
     songMp3: null,
     explicit: '',
   });
+  const [notificationOpen, setNotificationOpen] = React.useState(false);
+  const [notificationMessage, setNotificationMessage] = React.useState('');
 
   const handleButtonClick = () => {
     setIsModalOpen(true);
@@ -73,6 +77,15 @@ function UploadArea() {
       songMp3: e.target.files[0],
     }));
   };
+  const handleNotificationOpen = (message) => {
+    setNotificationMessage(message);
+    setNotificationOpen(true);
+  };
+  
+  const handleNotificationClose = () => {
+    setNotificationOpen(false);
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -96,6 +109,7 @@ function UploadArea() {
 
       const response = await lowLevelPrediction(accessToken, formData);
       console.log(response);
+      handleNotificationOpen('Check results page to see the status of the song you uploaded');
     } catch (error) {
       console.error('Error predicting low level:', error);
     }
@@ -194,6 +208,28 @@ function UploadArea() {
           </form>
         </ModalContent>
       </ModalContainer>
+      {/* Notification snackbar */}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={notificationOpen}
+        autoHideDuration={6000} // Adjust duration as needed
+        onClose={handleNotificationClose}
+        message={notificationMessage}
+        ContentProps={{
+          style: {
+            backgroundColor: 'lightgreen',
+            color: 'black',
+          },
+        }}
+        action={
+          <IconButton size="small" aria-label="close" color="inherit" onClick={handleNotificationClose}>
+            <Close fontSize="small" />
+          </IconButton>
+        }
+      />
     </>
   );
 }
