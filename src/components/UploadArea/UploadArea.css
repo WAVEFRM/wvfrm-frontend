@@ -1,0 +1,17 @@
+.songUploadForm
+{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.TitleUpload
+{
+    margin-bottom: 2rem;
+}
+.buttonUploadModal
+{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    justify-content: end;
+}
