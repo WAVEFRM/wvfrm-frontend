@@ -1,0 +1,64 @@
+.song-result-container {
+  margin-top: 6%;
+}
+
+.upload-song-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:50%;
+}
+.predict-song-result{
+  display: flex;
+  flex-direction: row;
+}
+
+.song-cover {
+  width: 250px;
+  height: 250px;
+  border-radius: 2rem;
+  object-fit: cover;
+  
+}
+
+.song-popularity{
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-song-attributes {
+  display: flex;
+  margin-top: 2%;
+  flex-wrap:wrap;
+  flex-direction:row;
+  padding:0 1% 0 1%;
+  justify-content: space-between;
+  width: 100%; 
+}
+
+
+.upload-attribute {
+  display:flex;
+  flex-direction: column;
+  flex-basis: 19%;
+  text-align: center;
+  margin-bottom: 1rem;
+  border-radius: 1rem;
+  background-color: #91a1b0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  height: 15vh;
+  padding: 10px;
+  box-sizing: border-box;
+  font-weight: bolder;
+}
+
+.upload-attribute:hover {
+ 
+  color:#fff;
+  background-color: #254461;
+  transform:scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+/* Additional styling for labels and values */

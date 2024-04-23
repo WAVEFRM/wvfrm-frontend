@@ -1,0 +1,19 @@
+.slot-machine {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90%;
+    
+  }
+  
+  .slot-wheel-item {
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: bold;
+  }
+  
+   
+  
