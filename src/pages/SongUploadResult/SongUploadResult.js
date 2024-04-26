@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import SlotMachine from '../../components/SlotMachine/SlotMachine';
@@ -8,7 +9,7 @@ import './SongUploadResult.css';
 
 const SongUploadResult = () => {
   const [songDetails, setSongDetails] = useState(null);
-  
+  const {id}=useParams();
   const audioRef = React.createRef(); 
 
   useEffect(() => {
@@ -42,6 +43,7 @@ const SongUploadResult = () => {
     </div>
       <div className="song-popularity">
       <SlotMachine value={songDetails.result.predicted_popularity.toUpperCase()} />
+      
       </div>
     </div>
       

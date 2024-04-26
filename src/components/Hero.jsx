@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React from 'react';
 import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -9,24 +9,18 @@ import Grid from '@mui/material/Grid';
 
 const featuredPosts = [
   {
-    title: 'Search or Upload Your Music',
-    date: 'Nov 12',
-    description: 'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random?wallpapers',
+    title: 'Search or Upload Your Music',   
+    image: 'https://source.unsplash.com/random?search-music',
     imageLabel: 'Image Text',
   },
   {
-    title: 'Predict its popularity',
-    date: 'Nov 11',
-    description: 'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random?wallpapers',
+    title: 'Predict its popularity',  
+    image: 'https://source.unsplash.com/random?music',
     imageLabel: 'Image Text',
   },
   {
     title: 'View the Prediction Results',
-    date: 'Nov 11',
-    description: 'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random?wallpapers',
+    image: 'https://source.unsplash.com/random?music-wave-charts',
     imageLabel: 'Image Text',
   },
 ];
@@ -89,7 +83,7 @@ export default function Hero() {
 
         <Grid container spacing={2} direction="column" justifyContent="space-between" alignItems="center">
           {featuredPosts.map((post) => (
-            <LandingCard key={post.title} post={post} />
+            <LandingCard key={post.title} post={post}  />
           ))}
         </Grid>
       </Container>

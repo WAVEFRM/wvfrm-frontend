@@ -15,5 +15,49 @@
     font-weight: bold;
   }
   
-   
+  .predict-text {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(4px);
+  }
   
+  .predict-text:nth-child(1) {
+    animation: fade-in 1.5s 0.1s forwards cubic-bezier(0.11, 0, 0.5, 0);
+  }
+  
+  .predict-text:nth-child(2) {
+    animation: fade-in 1.5s 0.2s forwards cubic-bezier(0.11, 0, 0.5, 0);
+  }
+  
+  .predict-text:nth-child(3) {
+    animation: fade-in 1.5s 0.3s forwards cubic-bezier(0.11, 0, 0.5, 0);
+  }
+  
+  .predict-text:nth-child(4) {
+    animation: fade-in 1.5s 0.4s forwards cubic-bezier(0.11, 0, 0.5, 0);
+  }
+  
+  .predict-text:nth-child(5) {
+    animation: fade-in 1.5s 0.5s forwards cubic-bezier(0.11, 0, 0.5, 0);
+  }
+  
+  .predict-text:nth-child(6) {
+    animation: fade-in 1.5s 0.6s forwards cubic-bezier(0.11, 0, 0.5, 0);
+  }
+  
+ 
+  
+  @keyframes fade-in {
+    100% {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+  
+
+
+ 
+ 
+
+
+ 

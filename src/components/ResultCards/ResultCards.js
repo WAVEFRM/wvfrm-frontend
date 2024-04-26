@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { redirect } from "react-router-dom";
 
 import axios from 'axios';
 import './ResultCards.css'; // Import CSS file for styling
@@ -23,7 +24,7 @@ const ResultCard = ({ name, artist, url, image_url,clickable,handleClick }) => {
     onClick={clickable ? handleClick : null}
     >
        
-      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }} onClick={() => handleClick(name)}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', flexGrow: 1 }} >
         <CardContent sx={{ flex: '1 0 auto' }}>
           <Typography component="div" variant="h5">
             {name}
@@ -55,7 +56,7 @@ const ResultCard = ({ name, artist, url, image_url,clickable,handleClick }) => {
 
 const ResultCards = () => {
   const [activeSection, setActiveSection] = useState('completed');
-  const navigate = useNavigate()
+  let navigate = useNavigate();
  
   const BASE_URL = process.env.REACT_APP_DRF_BASE_URL;
   const [songs, setSongs] = useState({
@@ -101,15 +102,14 @@ const ResultCards = () => {
   };
 
   const handleCardClick = (id,click) => {
-    if(click){
-    const clickedSong = JSON.parse(localStorage.getItem('completedSongs'))?.find(song => song.id === id);
-  
-    // Store details of the clicked song in localStorage (optional)
-    localStorage.setItem('clickedSong', JSON.stringify(clickedSong));
-  
-    // Navigate to the new page with the song id
-    navigate(`/song-upload-result/${id}`);
-    }
+    if(click){   
+    const clickedSong =  JSON.parse(localStorage.getItem('completedSongs'))?.find(song => song.id === id);
+    localStorage.setItem('clickedSong', JSON.stringify(clickedSong));  
+     navigate(`/song-upload-result/${id}`);
+   
+    
+    // return redirect(`/song-upload-result/${id}`);
+    };
   };
 
 
@@ -154,7 +154,7 @@ const ResultCards = () => {
               url={song.song_file_url}
               image_url={song.song_cover_art_url}
               clickable={false}
-              handleClick={() => handleCardClick(song.id,true)}
+              handleClick={() => handleCardClick(song.id,false)}
             />
           ))}
         {activeSection === 'completed' &&
