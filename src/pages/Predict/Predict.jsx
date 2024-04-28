@@ -31,9 +31,8 @@ function Predict() {
   const [albumTracks, setAlbumTracks] = useState([]);
   const [similarSongs, setSimilarSongs] = useState([]);
   const [finalObject, setFinalObject] = useState([]);
-  const [durationOfProcess, setdurationOfProcess] = useState(null)
+  const [durationOfProcess, setdurationOfProcess] = useState(null);
   useEffect(() => {
-    
     const fetchData = async () => {
       try {
         const startTime = performance.now();
@@ -84,17 +83,43 @@ function Predict() {
           setAlbumTracks(tracks);
           console.log(tracks);
 
-          // Get track its from tracks
-          const trackIds = tracks.map((track) => track.id);
+          // Get track ids from tracks
+          let trackIds = tracks.map((track) => track.id);
           console.log(trackIds);
 
           // Get durations of the tracks
-          const trackDurations = await getTrackDurations(accessToken, trackIds);
+          let trackDurations = await getTrackDurations(accessToken, trackIds);
           console.log(trackDurations);
 
           // Get audio features of the tracks
-          const audioFeatures = await getAudioFeatures(accessToken, trackIds);
+          let audioFeatures = await getAudioFeatures(accessToken, trackIds);
           console.log(audioFeatures);
+
+          // Remove null audio features and corresponding data from other arrays
+          const filteredData = audioFeatures.reduce(
+            (acc, feature, index) => {
+              if (feature !== null) {
+                acc.filteredAudioFeatures.push(feature);
+                acc.filteredTracks.push(trackIds[index]);
+                acc.filteredTrackDurations.push(trackDurations[index]);
+              }
+              return acc;
+            },
+            {
+              filteredAudioFeatures: [],
+              filteredTracks: [],
+              filteredTrackDurations: [],
+            }
+          );
+
+          // Updated arrays after filtering null values
+          audioFeatures = filteredData.filteredAudioFeatures;
+          trackIds = filteredData.filteredTracks;
+          trackDurations = filteredData.filteredTrackDurations;
+
+          console.log(audioFeatures);
+          console.log(trackIds);
+          console.log(trackDurations);
 
           // Merged Data of both audio features and durations
           const mergedData = trackIds.map((id) => ({
@@ -329,7 +354,7 @@ function Predict() {
   return (
     <div className="predictContainer">
       {loading ? ( // Render loading component if loading is true
-        <Loading time={durationOfProcess}/>
+        <Loading time={durationOfProcess} />
       ) : (
         <>
           <Playback trackUrl={trackUrl} finalObject={finalObject} />

@@ -1,8 +1,7 @@
-import React, { useState,} from 'react';
+import React, { useState } from 'react';
 import './StatCards.css';
 
 const StatCards = (props) => {
-    
   const { data, songData } = props; // data -acou,danc,inst and songData - name ,duration etc..
   const [expandedCard, setExpandedCard] = useState(null);
 
@@ -72,7 +71,18 @@ const StatCards = (props) => {
         <h1 class="song-detail-stat-title">{songData.name}</h1>
         <h2 class="song-detail-stat-artist">{artistNames}</h2>
         <h2 className="pred-result">
-          The song is predicted as <span>{data.prediction}</span>
+          Predicted Track Popularity :{' '}
+          <span>
+            {data.prediction === 'not_hit'
+              ? 'Not Hit'
+              : data.prediction === 'hit'
+              ? 'Hit'
+              : data.prediction === 'popular'
+              ? 'Popular'
+              : data.prediction === 'flop'
+              ? 'Flop'
+              : ''}
+          </span>
         </h2>
       </div>
       <div className="song-detail-stat-info">

@@ -163,8 +163,8 @@ const getNewAlbumTracks = async (spotifyAccessToken, albumIds) => {
     const albumTracks = response.albums.map((album) => ({
       track: {
         ...album.tracks.items[0], // Spread all details of the first track
-        popularity: album.popularity // Include popularity
-      }
+        popularity: album.popularity, // Include popularity
+      },
     }));
     return albumTracks; // Extracting only the first track from each album
   } catch (error) {
@@ -245,7 +245,7 @@ const getAudioFeature = async (spotifyAccessToken, trackId) => {
 const getSimilarSongs = async (spotifyAccessToken, artistId, seedGenres, trackId) => {
   const limit = 6;
   const market = 'US';
-  const genres = seedGenres.join(', ');
+  const genres = seedGenres.slice(0, 3).join('%2C');
   const url = `https://api.spotify.com/v1/recommendations?limit=${limit}&market=${market}&seed_artists=${artistId}&seed_genres=${genres}&seed_tracks=${trackId}`;
   try {
     const response = await fetchSpotifyData(spotifyAccessToken, url);
@@ -271,5 +271,5 @@ export {
   getAudioFeature,
   getSimilarSongs,
   getTrackDetails,
-  getNewAlbumTracks
+  getNewAlbumTracks,
 };
