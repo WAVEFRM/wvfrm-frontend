@@ -18,6 +18,7 @@ import {
 } from '../../services/spotify/spotify-service';
 import { highLevelPrediction } from '../../services/api/prediction-results';
 import Loading from '../../components/Loading/Loading';
+import { Explicit } from '@mui/icons-material';
 
 function Predict() {
   // const [similarSongs, setsimilarSongs] = useState([]);
@@ -69,15 +70,7 @@ function Predict() {
             trackDetails.id
           );
           console.log(similarSongs.tracks);
-          const formattedReleases = similarSongs.tracks.map((track) => {
-            return {
-              id: track.id,
-              name: track.name,
-              artists: track.artists,
-              images: track.album.images,
-              external_urls: track.external_urls,
-            };
-          });
+          const formattedReleases = similarSongs.tracks;
           console.log(formattedReleases);
           setSimilarSongs(formattedReleases);
 

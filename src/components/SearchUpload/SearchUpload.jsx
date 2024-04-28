@@ -12,7 +12,7 @@ const SearchUpload = () => {
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [searchTimeout, setSearchTimeout] = useState(null);
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();   
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,8 +51,8 @@ const SearchUpload = () => {
         try {
           const newAccessToken = localStorage.getItem('spotifyAccessToken');
           const searchItems = await searchTrack(newAccessToken, debouncedSearchTerm);
-          console.log(searchItems)
-          
+          console.log(searchItems);
+
           const trackDetails = searchItems.map((item) => ({
             name: item.name,
             artists_name: item.artists,
@@ -60,10 +60,10 @@ const SearchUpload = () => {
             id: item.id,
             duration_ms: item.duration_ms,
             popularity: item.popularity,
-            relaseDate: item.album.release_date.slice(0,4),
-            coverImage: item.album.images[0].url
+            relaseDate: item.album.release_date.slice(0, 4),
+            coverImage: item.album.images[0].url,
           }));
-          console.log(trackDetails)
+          console.log(trackDetails);
           setSearchResults(trackDetails);
           setShowList(true);
         } catch (error) {
@@ -107,7 +107,7 @@ const SearchUpload = () => {
           <ul className="songs-list">
             {searchResults.map((song, index) => (
               <li onClick={() => handleSongSelection(song)} className="songsList" key={index}>
-                {song.name}
+                {song.name} - {song.artists_name.map((artist) => artist.name).join(', ')}
               </li>
             ))}
           </ul>

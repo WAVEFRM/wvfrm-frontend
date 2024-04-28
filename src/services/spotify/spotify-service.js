@@ -8,7 +8,7 @@ const SPOTIFY_CONFIG = {
   searchUrl: process.env.REACT_APP_SPOTIFY_SEARCH_URL,
   artistUrl: process.env.REACT_APP_SPOTIFY_ARTIST_URL,
   trackUrl: process.env.REACT_APP_SPOTIFY_TRACK_URL,
-  audioFeaturesUrl: process.env.REACT_APP_SPOTIFY_AUDIO_FEATURES_URL
+  audioFeaturesUrl: process.env.REACT_APP_SPOTIFY_AUDIO_FEATURES_URL,
 };
 
 const getSpotifyAccessTokenFromRefresh = async () => {
@@ -58,14 +58,10 @@ const newReleases = async (spotifyAccessToken, options = {}) => {
     throw error;
   }
 };
-const similarSongs = async (spotifyAccessToken,seed_artist,seed_track,seed_genres, options = {}) => {
-  const {
-    limit = 6,
-    market = 'US',
-    offset=0
-  } = options;
+const similarSongs = async (spotifyAccessToken, seed_artist, seed_track, seed_genres, options = {}) => {
+  const { limit = 6, market = 'US' } = options;
 
-  const genresArray = seed_genres.split(',').join('%2C'); 
+  const genresArray = seed_genres.split(',').join('%2C');
 
   const url = `https://api.spotify.com/v1/recommendations?limit=${limit}&market=${market}&seed_artists=${seed_artist}&seed_genres=${genresArray}&seed_tracks=${seed_track}`;
   console.log(url);
@@ -84,7 +80,6 @@ const searchTrack = async (spotifyAccessToken, query, options = {}) => {
   try {
     const response = await fetchSpotifyData(spotifyAccessToken, url);
     const searchItems = response.tracks?.items;
-    const trackNames = searchItems.map((item) => item.name);
     const fullData = searchItems.map((item) => item);
     console.log(fullData);
     return searchItems;
@@ -93,8 +88,7 @@ const searchTrack = async (spotifyAccessToken, query, options = {}) => {
   }
 };
 
-const getArtistDetails = async (spotifyAccessToken,artistId,options={})=>
-{
+const getArtistDetails = async (spotifyAccessToken, artistId, options = {}) => {
   const { artistUrl } = SPOTIFY_CONFIG;
   const url = `${artistUrl}/${artistId}`;
 
@@ -106,6 +100,7 @@ const getArtistDetails = async (spotifyAccessToken,artistId,options={})=>
     throw error;
   }
 };
+
 const getArtistsDetails = async (spotifyAccessToken, artistIds, options = {}) => {
   const { artistUrl } = SPOTIFY_CONFIG;
   const idsString = artistIds.join(',');
@@ -118,6 +113,7 @@ const getArtistsDetails = async (spotifyAccessToken, artistIds, options = {}) =>
     throw error;
   }
 };
+
 const getAlbumIds = async (spotifyAccessToken, most_popid, options = {}) => {
   const { artistUrl } = SPOTIFY_CONFIG;
   const { limit = 20, offset = 0 } = options;
@@ -126,25 +122,66 @@ const getAlbumIds = async (spotifyAccessToken, most_popid, options = {}) => {
   try {
     const response = await fetchSpotifyData(spotifyAccessToken, url);
     const albums = response.items;
-    const albumIds = albums.map(album => album.id);
+    const albumIds = albums.map((album) => album.id);
     return albumIds;
   } catch (error) {
     throw error;
   }
 };
+
+// Get album details from albumId
+const getAlbumDetails = async (spotifyAccessToken, albumId) => {
+  const url = `https://api.spotify.com/v1/albums/${albumId}/tracks`;
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    return response;
+  } catch (error) {
+    throw error;
+  }
+};
+
+// Get tracks from albums
 const getAlbumTracks = async (spotifyAccessToken, albumIds) => {
   const albstr = albumIds.join(',');
   const url = `https://api.spotify.com/v1/albums?ids=${albstr}&market=US`;
 
   try {
     const response = await fetchSpotifyData(spotifyAccessToken, url);
-    const albumTracks = response.albums.map(album => album.tracks.items).flat();
+    const albumTracks = response.albums.map((album) => album.tracks.items).flat();
     return albumTracks;
   } catch (error) {
     throw error;
   }
 };
+// const getNewRelease Album tracks
+const getNewAlbumTracks = async (spotifyAccessToken, albumIds) => {
+  const albstr = albumIds.join(',');
+  const url = `https://api.spotify.com/v1/albums?ids=${albstr}&market=US`;
 
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    const albumTracks = response.albums.map((album) => ({
+      track: {
+        ...album.tracks.items[0], // Spread all details of the first track
+        popularity: album.popularity // Include popularity
+      }
+    }));
+    return albumTracks; // Extracting only the first track from each album
+  } catch (error) {
+    throw error;
+  }
+};
+// Get track details from trackId
+const getTrackDetails = async (spotifyAccessToken, trackId) => {
+  const url = `https://api.spotify.com/v1/tracks/${trackId}`;
+  try {
+    const response = await fetchSpotifyData(spotifyAccessToken, url);
+    return response;
+  } catch (error) {
+    console.error('Error fetching track details:', error);
+    throw error;
+  }
+};
 
 // Function to get the duration of tracks
 const getTrackDurations = async (spotifyAccessToken, trackIds) => {
@@ -158,10 +195,10 @@ const getTrackDurations = async (spotifyAccessToken, trackIds) => {
 
     try {
       const response = await fetchSpotifyData(spotifyAccessToken, url);
-      const batchDurations = response.tracks.map(track => ({
+      const batchDurations = response.tracks.map((track) => ({
         id: track.id,
         duration_ms: track.duration_ms,
-        popularity: track.popularity
+        popularity: track.popularity,
       }));
       trackDurations = trackDurations.concat(batchDurations);
     } catch (error) {
@@ -172,7 +209,6 @@ const getTrackDurations = async (spotifyAccessToken, trackIds) => {
 
   return trackDurations;
 };
-
 
 // Function to get the audio features of tracks
 const getAudioFeatures = async (spotifyAccessToken, trackIds) => {
@@ -195,8 +231,7 @@ const getAudioFeatures = async (spotifyAccessToken, trackIds) => {
 
   return audioFeatures;
 };
-const getAudioFeature = async (spotifyAccessToken,trackId)=>{
-  
+const getAudioFeature = async (spotifyAccessToken, trackId) => {
   const url = `https://api.spotify.com/v1/audio-features/${trackId}`;
   try {
     const response = await fetchSpotifyData(spotifyAccessToken, url);
@@ -204,23 +239,37 @@ const getAudioFeature = async (spotifyAccessToken,trackId)=>{
   } catch (error) {
     throw error;
   }
-
-}
+};
 
 // To get Similar songs
-const getSimilarSongs = async (spotifyAccessToken,artistId, seedGenres,trackId) => {
-  const limit=6;
-  const market='US';
+const getSimilarSongs = async (spotifyAccessToken, artistId, seedGenres, trackId) => {
+  const limit = 6;
+  const market = 'US';
   const genres = seedGenres.join(', ');
   const url = `https://api.spotify.com/v1/recommendations?limit=${limit}&market=${market}&seed_artists=${artistId}&seed_genres=${genres}&seed_tracks=${trackId}`;
   try {
     const response = await fetchSpotifyData(spotifyAccessToken, url);
     console.log(response);
     return response; // Assuming the response contains artist details
-  }
-  catch (error) {
+  } catch (error) {
     throw error;
   }
-}
-export { SPOTIFY_CONFIG, getSpotifyAccessTokenFromRefresh, newReleases, searchTrack, similarSongs, getArtistDetails, getArtistsDetails, getAlbumIds, getAlbumTracks, getTrackDurations, getAudioFeatures,getAudioFeature,getSimilarSongs};
-
+};
+export {
+  SPOTIFY_CONFIG,
+  getSpotifyAccessTokenFromRefresh,
+  newReleases,
+  searchTrack,
+  similarSongs,
+  getArtistDetails,
+  getArtistsDetails,
+  getAlbumIds,
+  getAlbumTracks,
+  getAlbumDetails,
+  getTrackDurations,
+  getAudioFeatures,
+  getAudioFeature,
+  getSimilarSongs,
+  getTrackDetails,
+  getNewAlbumTracks
+};

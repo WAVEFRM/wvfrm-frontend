@@ -41,12 +41,14 @@ function HomePage() {
         const newAccessToken = await getSpotifyAccessTokenFromRefresh();
         setSpotifyAccessToken(newAccessToken);
         const releases = await newReleases(newAccessToken);
+        console.log(releases);
         setNewReleasesData(releases.albums.items);
 
 
         // Cache data in local storage with timestamp
         localStorage.setItem('spotifyAccessToken', newAccessToken);
         localStorage.setItem('newReleasesData', JSON.stringify(releases.albums.items));
+        console.log(releases);
         localStorage.setItem('cachedTimestamp', new Date().getTime().toString());
 
         setLoading(false);
