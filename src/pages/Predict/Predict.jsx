@@ -357,6 +357,7 @@ function Predict() {
         <Loading time={durationOfProcess} />
       ) : (
         <>
+          <Navbar/>
           <Playback trackUrl={trackUrl} finalObject={finalObject} />
           {finalObject && (
             <Link to={'/stat'}>

@@ -13,11 +13,7 @@ export default function Navbar() {
         </NavLink>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <NavLink to="/predict" className="nav-link" activeClassName="active">
-                Predict
-              </NavLink>
-            </li>
+            
             <li className="nav-item">
               <NavLink to="/results" className="nav-link" activeClassName="active">
                 Results

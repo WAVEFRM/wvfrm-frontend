@@ -109,12 +109,14 @@ function UploadArea() {
 
       const response = await lowLevelPrediction(accessToken, formData);
       console.log(response);
+      handleCloseModal();
       handleNotificationOpen('Check results page to see the status of the song you uploaded');
     } catch (error) {
       console.error('Error predicting low level:', error);
+      handleCloseModal();
     }
 
-    handleCloseModal();
+   
   };
 
   return (
