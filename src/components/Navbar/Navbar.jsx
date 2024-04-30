@@ -1,9 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../../hooks/AuthProvider';
 import wvfrmFavicon from '../../assets/wvfrm-transparent.png';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 export default function Navbar() {
+  const { logout } = useAuth();
+
   return (
     <nav className="bg-dark navbar navbar-expand-lg" data-bs-theme="dark">
       <div className="container-fluid">
@@ -27,6 +30,11 @@ export default function Navbar() {
             <li className="nav-item">
               <NavLink to="/contact" className="nav-link" activeClassName="active">
                 Contact
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink to="/landing" className="nav-link" activeClassName="active" onClick={logout}>
+                Logout
               </NavLink>
             </li>
           </ul>
