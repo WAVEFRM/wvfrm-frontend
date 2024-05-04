@@ -149,13 +149,13 @@ function UploadArea() {
           <form className="songUploadForm" onSubmit={handleSubmit}>
             <div>
               <FlexFormControl fullWidth error={songData.firstName.trim() === ''}>
-                <h6>First Name</h6>
+                <h6>Song Name</h6>
                 <TextField
                   name="firstName"
                   value={songData.firstName}
                   onChange={handleChange}
                   required // Set as required
-                  helperText={songData.firstName.trim() === '' ? 'Name is required' : ''}
+                  helperText={songData.firstName.trim() === '' ? 'Song name is required' : ''}
                 />
               </FlexFormControl>
             </div>

@@ -9,7 +9,7 @@ function Footer() {
       <footer
         className="bg-dark d-flex flex-wrap justify-content-between align-items-center py-3 border-top footerdiv"
         data-bs-theme="dark"
-        style={{bottom: 0, left: 0, right: 0 }} // Add inline style for positioning
+        style={{bottom: 0, left: 0, right: 0,}} // Add inline style for positioning
       >
         <div className="col-md-4 d-flex align-items-center">
           <NavLink to="/" className="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">

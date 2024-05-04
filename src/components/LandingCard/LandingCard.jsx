@@ -40,9 +40,9 @@ function LandingCard(props) {
   >
     <Grid item xs={12} md={15}>
       <CardActionArea component="a" href="#">
-        <Card sx={{ display: 'flex' , align:'center',width:'100%'}}>
+        <Card sx={{ display: 'flex' , align:'center',width:'100%',alignItems:'center'}}>
           <CardContent sx={{ flex: 1 ,width: 450,}}>
-            <Typography component="h2" variant="h2">
+            <Typography component="h2" variant="h2" fontFamily={'Segoe UI'}>
               {post.title}
             </Typography>
             <Typography variant="subtitle1" paragraph>

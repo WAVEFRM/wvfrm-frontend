@@ -146,6 +146,11 @@ const ResultCards = () => {
 
       <div className="result-card-section">
         {activeSection === 'inProgress' &&
+           (songs.inProgress.length === 0 ? (
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold', lineHeight: 8,marginLeft:'40%',}}>
+              No songs to display.
+            </Typography>
+          ) : (
           songs.inProgress.map((song) => (
             <ResultCard
               key={song.id}
@@ -156,8 +161,14 @@ const ResultCards = () => {
               clickable={false}
               handleClick={() => handleCardClick(song.id,false)}
             />
+          ))
           ))}
         {activeSection === 'completed' &&
+           (songs.completed.length === 0 ? (
+            <Typography variant="h4" component="div" sx={{ fontWeight: 'bold', lineHeight: 8,marginLeft:'40%', }}>
+              No songs to display.
+            </Typography>
+          ) : (
           songs.completed.map((song) => (
             <ResultCard
               key={song.id}
@@ -168,8 +179,14 @@ const ResultCards = () => {
               clickable={true}
               handleClick={() => handleCardClick(song.id,true)}
             />
+          ))
           ))}
         {activeSection === 'failed' &&
+         (songs.failed.length === 0 ? (
+          <Typography variant="h4" component="div" sx={{ fontWeight: 'bold', lineHeight: 8,marginLeft:'40%', }}>
+            No songs to display.
+          </Typography>
+        ) : (
           songs.failed.map((song) => (
             <ResultCard
               key={song.id}
@@ -180,6 +197,7 @@ const ResultCards = () => {
               clickable={false}
               handleClick={() => handleCardClick(song.id,false)}
             />
+          ))
           ))}
       </div>
     </div>
