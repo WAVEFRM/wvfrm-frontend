@@ -68,4 +68,32 @@ const createProfile = async (accessToken, profileData) => {
   }
 };
 
-export { convertToken, convertRefreshToken, checkProfile, createProfile };
+const viewProfile = async (accessToken) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/profile/view_profile/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+  }
+};
+const editProfile = async (accessToken, profileData) => {
+  try {
+    console.log(profileData,'oooojjjjdsjdjasjdasd')
+    const response = await axios.put(`${BASE_URL}/profile/edit_profile/`, profileData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    console.log('ooooofoofoofof', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('Error creating profile:', error);
+  }
+};
+export { convertToken, convertRefreshToken, checkProfile, createProfile, viewProfile, editProfile };

@@ -24,13 +24,12 @@ const About = () => {
               <div className="aboutus">
                 <h2 className="aboutus-title">About Us</h2>
                 <p className="aboutus-text">
-                  Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
-                  Aliquam lorem ante, dapibus in.
+                  We aim to provide artists with valuable insights into the potential success of their tracks. 
+                  <br/>
+                  <br/>
+                  We recognize the challenges artists face in the music industry and strive to offer practical solutions driven by data.
                 </p>
-                <p className="aboutus-text">
-                  This is Photoshop's version of Lorem Ipsum. Proin gravida nibh vel velit auctor aliquet. Aenean
-                  sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem
-                </p>
+               
               </div>
             </div>
             <div className="col-md-5 col-sm-6 col-xs-12">
@@ -41,10 +40,23 @@ const About = () => {
                       <span className="glyphicon glyphicon-cog icon"></span>
                     </div>
                     <div className="feature-content">
-                      <h4>Work with heart</h4>
+                      <h4> Approach </h4>
                       <p>
-                        Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-                        enim. Aliquam lorem ante, dapibus in.
+                      We utilize a two-fold approach to predict the popularity of new music. 
+                      By leveraging the Spotify API and Librosa, we extract audio features to deliver accurate predictions for a song's success.
+                      </p>
+                    </div>
+                  </div> 
+                </div>
+                <div className="feature-box">
+                  <div className="clearfix">
+                    <div className="iconset">
+                      <span className="glyphicon glyphicon-cog icon"></span>
+                    </div>
+                    <div className="feature-content">
+                      <h4> Insights</h4>
+                      <p>
+                      Our platform offers artists detailed insights into their music's characteristics like tempo, energy, loudness
                       </p>
                     </div>
                   </div>
@@ -55,24 +67,10 @@ const About = () => {
                       <span className="glyphicon glyphicon-cog icon"></span>
                     </div>
                     <div className="feature-content">
-                      <h4>Reliable services</h4>
+                      <h4>Support</h4>
                       <p>
-                        Donec vitae sapien ut libero venenatis faucibu. Nullam quis ante. Etiam sit amet orci eget eros
-                        faucibus tincidunt
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="feature-box">
-                  <div className="clearfix">
-                    <div className="iconset">
-                      <span className="glyphicon glyphicon-cog icon"></span>
-                    </div>
-                    <div className="feature-content">
-                      <h4>Great support</h4>
-                      <p>
-                        Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
-                        enim. Aliquam lorem ante, dapibus in.
+                      Analyzing a track before release or strategizing marketing efforts,
+                       Waveform supports artists in making informed decisions to maximize their impact.
                       </p>
                     </div>
                   </div>

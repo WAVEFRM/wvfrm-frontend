@@ -1,53 +1,108 @@
 import * as React from 'react';
-import {Avatar, Box, Container, Grid, TextField, Button } from '@mui/material';
-
-
+import { Avatar, Box, Container, Grid, TextField, Button } from '@mui/material';
+import {Alert}  from '@mui/material';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { viewProfile, editProfile } from '../../services/api/auth-profile';
+import dayjs from 'dayjs';
 
-
-
-//Edit htese initial states
 const initialState = {
   name: '',
-  dob: null, // Use null to represent initial state for DatePicker
-  isEditing: false, // Flag to track edit mode
+  email: '',
+  firstName: '',
+  lastName: '',
+  username: '',
+  dob: null,
+  profileImage: null, // Updated to store the uploaded file
+  isEditing: false,
 };
 
 const ProfileCard = () => {
   const [formData, setFormData] = React.useState(initialState);
-  const fileInputRef = React.useRef(null);
+  const [uploadedFile, setUploadedFile] = React.useState(null);
+  const [error, setError] = React.useState('');
+
+  const fetchProfileData = async () => {
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await viewProfile(accessToken);
+      console.log(response)
+      const profileData = response;
+
+      initialState.name = `${profileData.user.first_name} ${profileData.user.last_name}`;
+      initialState.email = profileData.user.email;
+      initialState.firstName = profileData.user.first_name;
+      initialState.lastName = profileData.user.last_name;
+      initialState.username = profileData.user.username;
+      initialState.dob = dayjs(profileData.dob).format('YYYY-MM-DD'); // Format dob
+      initialState.profileImage = profileData.profile_pic_url;
+      initialState.isEditing = false;
+
+      setFormData({ ...initialState });
+    } catch (error) {
+      setError('Error fetching profile data');
+    }
+  };
+
+  React.useEffect(() => {
+    fetchProfileData();
+  }, []);
 
   const handleInputChange = (event) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+    // Only allow changes to dob and profileImage fields
+    if (event.target.name === 'dob') {
+      setFormData({ ...formData, [event.target.name]: dayjs(event.target.value).format('YYYY-MM-DD') });
+    }
   };
 
   const handleEditClick = () => {
     setFormData({ ...formData, isEditing: !formData.isEditing });
   };
-
-  const handleSaveClick = () => {
-    // Implement logic to save changes (e.g., send data to backend)
-    console.log('Saving changes:', formData);
-    setFormData({ ...formData, isEditing: false }); // Exit edit mode after save
-  };
-
   const handleUndoClick = () => {
-    setFormData(initialState); // Reset to initial state
+    setFormData({ ...initialState });
+    setError('');
+  }
+  const handleSaveClick = async () => {
+    // Validate age (user must be 13 or older)
+    const thirteenYearsAgo = dayjs().subtract(13, 'year');
+    if (formData.dob && dayjs(formData.dob, 'YYYY-MM-DD').isBefore(thirteenYearsAgo)) {
+      // Prepare data to send
+      const dobFormatted = dayjs(formData.dob).format('YYYY-MM-DD'); 
+      console.log(dobFormatted);
+      const profileData = {
+        dob: dobFormatted,
+      };
+      if (uploadedFile) {
+        profileData.profile_pic = uploadedFile; // Include uploaded file directly
+      }
+      console.log(profileData);
+      // Call API to save changes 
+      const accessToken = localStorage.getItem('accessToken');
+      try {
+        await editProfile(accessToken, profileData);
+        setFormData({ ...formData, isEditing: false });
+        setError('');
+      } catch (error) {
+        setError('Error saving profile changes');
+      }
+    } else {
+      setError('User must be 13 or older.');
+    }
   };
 
   const handleFileInputChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setFormData({ ...formData, profileImage: URL.createObjectURL(file) });
+      setUploadedFile(file);
+      const profileImageUrl = URL.createObjectURL(file); // Create object URL for the uploaded file
+      setFormData({ ...formData, profileImage: profileImageUrl }); // Store the URL of the uploaded file
     }
   };
 
-
   return (
-    <Container component="main" maxWidth="xs" style={{minHeight:'90vh'}}>
+    <Container component="main" maxWidth="xs" style={{ minHeight: '90vh' }}>
       <Box
         sx={{
           marginTop: 8,
@@ -56,34 +111,27 @@ const ProfileCard = () => {
           alignItems: 'center',
         }}
       >
-        <Avatar
-          alt="Profile Image"
-          src={formData.profileImage}
-          sx={{ width: 200, height: 200, mx: 'auto', mt: 2 }}
-        />
+        <Avatar alt="Profile Image" src={formData.profileImage} sx={{ width: 200, height: 200, mx: 'auto', mt: 2 }} />
         <input
           type="file"
           accept="image/*"
           id="upload-photo"
           style={{ display: 'none' }}
-          ref={fileInputRef}
           disabled={!formData.isEditing}
           onChange={handleFileInputChange}
         />
-       <label htmlFor="upload-photo">
-          <Button 
-          color="primary" 
-          variant="contained"
-           component="span"
-            style={{marginTop:'2rem'}}  
+        <label htmlFor="upload-photo">
+          <Button
+            color="primary"
+            variant="contained"
+            component="span"
+            style={{ marginTop: '2rem' }}
             disabled={!formData.isEditing}
-            onClick={() => formData.isEditing && fileInputRef.current.click()}
-            > 
+          >
             Upload Profile Photo
           </Button>
         </label>
-        
-        
+
         <Box component="form" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -92,48 +140,107 @@ const ProfileCard = () => {
                 name="name"
                 required
                 fullWidth
-                id="name"
+                id="name" 
                 label="Name"
                 autoFocus
                 value={formData.name}
                 onChange={handleInputChange}
-                disabled={!formData.isEditing} // Disable input if not in edit mode
+                disabled
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="email"
+                name="email"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="fname"
+                name="firstName"
+                required
+                fullWidth
+                id="firstName"
+                label="First Name"
+                value={formData.firstName}
+                onChange={handleInputChange}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                autoComplete="lname"
+                name="lastName"
+                required
+                fullWidth
+                id="lastName"
+                label="Last Name"
+                value={formData.lastName}
+                onChange={handleInputChange}
+                disabled
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                autoComplete="username"
+                name="username"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                value={formData.username}
+                onChange={handleInputChange}
+                disabled
               />
             </Grid>
             <Grid item xs={12}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                   <DatePicker
-                    label="Date of Birth"
-                    value={formData.dob}
+                    label="Date of Birth" 
+                    value={formData.dob ? dayjs(formData.dob) : null}
                     onChange={(newValue) => setFormData({ ...formData, dob: newValue })}
                     disableFuture
-                    disabled={!formData.isEditing} // Disable DatePicker if not in edit mode
+                    disabled={!formData.isEditing}
                   />
                 </DemoContainer>
               </LocalizationProvider>
+              {error!==''&&<Alert severity="error" sx={{ mt: 2 }}>
+              You must be at least 13 years old to create an account.
+            </Alert>}
             </Grid>
-          
+
             <Grid item xs={12}>
-              <Button variant="contained" color="primary" onClick={handleEditClick}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={formData.isEditing ? handleSaveClick : handleEditClick}
+                sx={{ my: 2, mx: 4 }}
+              >
                 {formData.isEditing ? 'Save' : 'Edit Profile'}
               </Button>
-              {formData.isEditing && (
-                <>
-                  <Button variant="outlined" color="error" sx={{ ml: 1 }} onClick={handleUndoClick}>
-                    Undo
-                  </Button>
-                  <Button variant="contained" color="success" sx={{ ml: 1 }} onClick={handleSaveClick}>
-                    Save Changes
-                  </Button>
-                </>
-              )}
-            </Grid>           
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={handleUndoClick}
+                sx={{ my: 2, mx: 4 }}
+              >
+                Undo
+              </Button>
+            </Grid>
           </Grid>
         </Box>
       </Box>
+      
     </Container>
-    
+
   );
 };
 
